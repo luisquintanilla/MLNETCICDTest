@@ -46,9 +46,10 @@ steps:
       az storage blob upload \
           --account-name $(az-model-storage-account-name) \
           --container-name $(az-model-storage-container-name) \
-          --sas-token $(az-model-storage-sas-token) \
           --name model.zip \
-          --file model.zip
+          --file model.zip \
+          --sas-token $(az-model-storage-sas-token)
+
 
 - task: CmdLine@2
   displayName: 'Seeing the current contents'
