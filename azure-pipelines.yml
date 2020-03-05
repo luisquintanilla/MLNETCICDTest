@@ -43,6 +43,7 @@ steps:
     scriptLocation: 'inlineScript'
     workingDirectory: 'TrainConsole'
     inlineScript: |
+      ls
       az storage blob upload \
           --account-name $(az-model-storage-account-name) \
           --container-name $(az-model-storage-container-name) \
