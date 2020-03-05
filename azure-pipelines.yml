@@ -47,7 +47,7 @@ steps:
           --container-name $(az-model-storage-container-name) \
           --name model.zip \
           --file model.zip \
-          --auth-mode login
+          --sas-token $(az-model-storage-sas-token)
     workingDirectory: 'TrainConsole'
 
 - task: CmdLine@2
