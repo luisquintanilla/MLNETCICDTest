@@ -45,7 +45,6 @@ steps:
     inlineScript: |
       ls
       az storage blob upload \
-          --account-name $(az-model-storage-account-name) \
           --container-name $(az-model-storage-container-name) \
           --name model.zip \
           --file model.zip \
