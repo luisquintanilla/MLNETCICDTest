@@ -19,7 +19,13 @@ steps:
   displayName: 'Run a multi-line script'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Restore Training project'
   inputs:
     command: 'restore'
     projects: 'TrainConsole/TrainConsole.csproj'
     feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: 'TrainConsole/TrainConsole.csproj'
