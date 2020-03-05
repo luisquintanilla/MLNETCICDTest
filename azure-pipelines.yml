@@ -46,7 +46,8 @@ steps:
           --account-name $(az-model-storage-account-name) \
           --container-name $(az-model-storage-container-name) \
           --name model.zip \
-          --file model.zip
+          --file model.zip \
+          --auth-mode login
     workingDirectory: 'TrainConsole'
 - task: CmdLine@2
   displayName: 'Seeing the current contents'
