@@ -7,6 +7,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Domain", "Domain\Domain.fsp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainConsole", "TrainConsole\TrainConsole.csproj", "{61B17F69-011A-46C1-891A-61D647449838}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzFnUploadService", "AzFnUploadService\AzFnUploadService.csproj", "{098FCD40-1E36-4764-8F4C-0E88610F33ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{61B17F69-011A-46C1-891A-61D647449838}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61B17F69-011A-46C1-891A-61D647449838}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61B17F69-011A-46C1-891A-61D647449838}.Release|Any CPU.Build.0 = Release|Any CPU
+		{098FCD40-1E36-4764-8F4C-0E88610F33ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{098FCD40-1E36-4764-8F4C-0E88610F33ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{098FCD40-1E36-4764-8F4C-0E88610F33ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{098FCD40-1E36-4764-8F4C-0E88610F33ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

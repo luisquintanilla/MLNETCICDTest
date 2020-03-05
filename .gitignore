@@ -360,3 +360,5 @@ MigrationBackup/
 *.code-workspace
 
 **/model.zip
+
+**/AzFnUploadService/*
