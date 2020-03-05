@@ -41,14 +41,14 @@ steps:
     azureSubscription: 'Visual Studio Enterprise(04edd16f-fa44-4e69-87c0-72a91e94a540)'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
+    workingDirectory: 'TrainConsole'
     inlineScript: |
       az storage blob upload \
           --account-name $(az-model-storage-account-name) \
           --container-name $(az-model-storage-container-name) \
           --sas-token $(az-model-storage-sas-token) \
           --name model.zip \
-          --file model.zip 
-    workingDirectory: 'TrainConsole'
+          --file model.zip
 
 - task: CmdLine@2
   displayName: 'Seeing the current contents'
