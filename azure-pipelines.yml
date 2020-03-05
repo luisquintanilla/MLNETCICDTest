@@ -36,3 +36,10 @@ steps:
   inputs:
     command: 'run'
     projects: 'TrainConsole/TrainConsole.csproj'    
+
+- task: CmdLine@2
+  displayName: 'Seeing the current contents'
+  inputs:
+    workingDirectory: TrainConsole
+    script: 'ls'
+
