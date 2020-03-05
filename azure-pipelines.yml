@@ -43,6 +43,8 @@ steps:
     workingDirectory: TrainConsole
     script: |
       ls
-      curl --location --request POST $AZ-FN-MODEL-UPLOAD-SERVICE \
+      curl --location --request POST $MAPPED-AZ-FN-MODEL-UPLOAD-SERVICE \
         --header 'Content-Type: application/x-www-form-urlencoded' \
         --form '=@model.zip'
+  env:
+    mapped-az-fn-model-upload-service: $(az-fn-model-upload-service)
