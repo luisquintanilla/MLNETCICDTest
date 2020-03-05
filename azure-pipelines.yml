@@ -40,6 +40,6 @@ steps:
 - task: CmdLine@2
   displayName: 'Seeing the current contents'
   inputs:
-    workingDirectory: TrainConsole
+    workingDirectory: TrainConsole/bin/Debug/netcoreapp3.1
     script: 'ls'
 
