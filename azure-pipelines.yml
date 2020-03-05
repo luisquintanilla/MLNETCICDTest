@@ -47,4 +47,4 @@ steps:
         --header 'Content-Type: application/x-www-form-urlencoded' \
         --form '=@model.zip'
   env:
-    mapped-az-fn-model-upload-service: $(az-fn-model-upload-service)
+    MAPPED-AZ-FN-MODEL-UPLOAD-SERVICE: $(az-fn-model-upload-service)
