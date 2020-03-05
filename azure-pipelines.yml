@@ -48,7 +48,7 @@ steps:
           --account-name $(az-storage-acct-name) \
           --container-name $(az-model-storage-container-name) \
           --name model.zip \
-          --file model.zip \
+          --file ./model.zip \
           --sas-token $(az-model-storage-sas-token)
 
 
