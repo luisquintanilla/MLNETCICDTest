@@ -34,12 +34,12 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Train model'
   inputs:
+    workingDirectory: 'TrainConsole'
     command: 'run'
-    projects: 'TrainConsole/TrainConsole.csproj'    
 
 - task: CmdLine@2
   displayName: 'Seeing the current contents'
   inputs:
-    workingDirectory: TrainConsole/bin/Debug/netcoreapp3.1
+    workingDirectory: TrainConsole
     script: 'ls'
 
