@@ -26,6 +26,13 @@ steps:
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Build training project'
   inputs:
     command: 'build'
     projects: 'TrainConsole/TrainConsole.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Train model'
+  inputs:
+    command: 'run'
+    projects: 'TrainConsole/TrainConsole.csproj'    
