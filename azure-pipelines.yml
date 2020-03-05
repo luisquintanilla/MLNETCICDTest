@@ -37,6 +37,14 @@ steps:
     workingDirectory: 'TrainConsole'
     command: 'run'
 
+- task: AzureFileCopy@4
+  inputs:
+    SourcePath: 'TrainConsole/model.zip'
+    azureSubscription: $(az-subscription)
+    Destination: 'AzureBlob'
+    storage: 'throwawaystorage'
+    ContainerName: 'models'
+
 - task: CmdLine@2
   displayName: 'Seeing the current contents'
   inputs:
