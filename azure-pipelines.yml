@@ -36,24 +36,13 @@ steps:
   inputs:
     workingDirectory: 'TrainConsole'
     command: 'run'
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'Visual Studio Enterprise(04edd16f-fa44-4e69-87c0-72a91e94a540)'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    workingDirectory: 'TrainConsole'
-    inlineScript: |
-      ls
-      az storage blob upload \
-          --account-name $(az-storage-acct-name) \
-          --container-name $(az-model-storage-container-name) \
-          --name model.zip \
-          --file ./model.zip \
-          --sas-token $(az-model-storage-sas-token)
-
 
 - task: CmdLine@2
-  displayName: 'Seeing the current contents'
+  displayName: 'Upload Model'
   inputs:
     workingDirectory: TrainConsole
-    script: 'ls'
+    script: |
+      ls
+      curl --location --request POST $AZ-FN-MODEL-UPLOAD-SERVICE \
+        --header 'Content-Type: application/x-www-form-urlencoded' \
+        --form '=@model.zip'
