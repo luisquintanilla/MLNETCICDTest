@@ -38,7 +38,7 @@ steps:
     command: 'run'
 - task: AzureCLI@2
   inputs:
-    azureSubscription: $(az-subscription)
+    azureSubscription: 'Visual Studio Enterprise(04edd16f-fa44-4e69-87c0-72a91e94a540)'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
@@ -49,9 +49,9 @@ steps:
           --file model.zip \
           --auth-mode login
     workingDirectory: 'TrainConsole'
+
 - task: CmdLine@2
   displayName: 'Seeing the current contents'
   inputs:
     workingDirectory: TrainConsole
     script: 'ls'
-
