@@ -9,4 +9,10 @@
     <ProjectReference Include="..\Domain\Domain.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="model.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

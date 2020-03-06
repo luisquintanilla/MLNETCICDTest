@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Domain", "Domain\Domain.fsproj", "{A49867BC-BAA5-4E22-AFA1-22BAD20162A6}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Domain", "Domain\Domain.fsproj", "{A49867BC-BAA5-4E22-AFA1-22BAD20162A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainConsole", "TrainConsole\TrainConsole.csproj", "{61B17F69-011A-46C1-891A-61D647449838}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainConsole", "TrainConsole\TrainConsole.csproj", "{61B17F69-011A-46C1-891A-61D647449838}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzFnUploadService", "AzFnUploadService\AzFnUploadService.csproj", "{098FCD40-1E36-4764-8F4C-0E88610F33ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzFnUploadService", "AzFnUploadService\AzFnUploadService.csproj", "{098FCD40-1E36-4764-8F4C-0E88610F33ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestModel", "TestModel\TestModel.csproj", "{B11BAA59-B331-4D53-B79C-31A00271029B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{098FCD40-1E36-4764-8F4C-0E88610F33ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{098FCD40-1E36-4764-8F4C-0E88610F33ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{098FCD40-1E36-4764-8F4C-0E88610F33ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B11BAA59-B331-4D53-B79C-31A00271029B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B11BAA59-B331-4D53-B79C-31A00271029B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B11BAA59-B331-4D53-B79C-31A00271029B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B11BAA59-B331-4D53-B79C-31A00271029B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
