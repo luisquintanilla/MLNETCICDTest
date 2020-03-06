@@ -10,10 +10,34 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: DotNetCoreCLI@2
+  displayName: 'Restore Training project'
+  inputs:
+    command: 'restore'
+    projects: 'TrainConsole/TrainConsole.csproj'
+    feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build training project'
+  inputs:
+    command: 'build'
+    projects: 'TrainConsole/TrainConsole.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Train model'
+  inputs:
+    workingDirectory: 'TrainConsole'
+    command: 'run'
+
+- task: CmdLine@2
+  displayName: 'Upload Model to Azure Blob Storage'
+  inputs:
+    workingDirectory: TrainConsole
+    script: |
+      curl --location --request POST $MAPPED_AZFN_MODEL_UPLOAD_SERVICE \
+        --header 'Transfer-Encoding: chunked' \
+        --header 'Content-Type: application/x-www-form-urlencoded' \
+        --form '=@model.zip'
+  env:
+    MAPPED_AZFN_MODEL_UPLOAD_SERVICE: $(az-fn-model-upload-service)
