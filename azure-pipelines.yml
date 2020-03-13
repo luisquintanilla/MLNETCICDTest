@@ -42,7 +42,7 @@ jobs:
       inputs:
         SourceFolder: 'TrainConsole'
         Contents: 'model.zip'
-        TargetFolder: '$MODEL_LOCATION'
+        TargetFolder: '$(Pipeline.Workspace)'
         OverWrite: true
     - task: CmdLine@2
       displayName: 'List files in artifact directory'
