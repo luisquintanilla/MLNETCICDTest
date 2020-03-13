@@ -58,7 +58,7 @@ jobs:
       displayName: 'Download validated model'
       inputs:
         workingDirectory: TrainConsole
-        script: 'curl VALIDATED_MODEL_URI > model.zip'
+        script: 'curl $VALIDATED_MODEL_URI > model.zip'
       env:
         VALIDATED_MODEL_URI: $(validated-model-uri)
     - task: CmdLine@2
