@@ -41,3 +41,11 @@ steps:
         --form '=@model.zip'
   env:
     MAPPED_AZFN_MODEL_UPLOAD_SERVICE: $(az-fn-model-upload-service)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Evaluate Model'
+  inputs:
+    command: 'test'
+    projects: 'TestModel'
+    testRunTitle: 'Evaluate Model'
+    workingDirectory: 'TestModel'
