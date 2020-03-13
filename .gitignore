@@ -362,3 +362,4 @@ MigrationBackup/
 **/model.zip
 
 **/AzFnUploadService/*
+**/AzFnSentimentAnalysisService/*
