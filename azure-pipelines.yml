@@ -6,46 +6,104 @@
 trigger:
 - master
 
+variables:
+  MODEL_LOCATION: '$(Build.StagingDirectory)'
+
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
+jobs:
+  - job: 'Train'
+    steps: 
+    - task: CmdLine@2
+      displayName: 'Get Model Location'
+      inputs:
+        script: 'echo $MODEL_LOCATION'
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore Training project'
+      inputs:
+        command: 'restore'
+        projects: 'TrainConsole/TrainConsole.csproj'
+        feedsToUse: 'select'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Restore Training project'
-  inputs:
-    command: 'restore'
-    projects: 'TrainConsole/TrainConsole.csproj'
-    feedsToUse: 'select'
+    - task: DotNetCoreCLI@2
+      displayName: 'Build training project'
+      inputs:
+        command: 'build'
+        projects: 'TrainConsole/TrainConsole.csproj'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build training project'
-  inputs:
-    command: 'build'
-    projects: 'TrainConsole/TrainConsole.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: 'Train model'
+      inputs:
+        command: 'run'
+        arguments: '$(training-data-uri)'
+        workingDirectory: 'TrainConsole'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: 'TrainConsole'
+        Contents: 'model.zip'
+        TargetFolder: '$(Build.StagingDirectory)'
+        OverWrite: true
+    - task: CmdLine@2
+      displayName: 'List files in artifact directory'
+      inputs:
+        script: 'ls $MODEL_LOCATION'        
 
-- task: DotNetCoreCLI@2
-  displayName: 'Train model'
-  inputs:
-    workingDirectory: 'TrainConsole'
-    command: 'run'
+  - job: 'Evaluate'
+    dependsOn: 'Train'
+    condition: succeeded('Train')
+    steps: 
+    - task: CmdLine@2
+      displayName: 'List files in artifact directory'
+      inputs:
+        script: 'ls $(Build.StagingDirectory)'
+    - task: DotNetCoreCLI@2
+      displayName: 'Evaluate Model'
+      inputs:
+        command: 'test'
+        projects: 'TestModel'
+        testRunTitle: 'Evaluate Model'
+        workingDirectory: 'TestModel'    
 
-- task: CmdLine@2
-  displayName: 'Upload Model to Azure Blob Storage'
-  inputs:
-    workingDirectory: TrainConsole
-    script: |
-      curl --location --request POST $MAPPED_AZFN_MODEL_UPLOAD_SERVICE \
-        --header 'Transfer-Encoding: chunked' \
-        --header 'Content-Type: application/x-www-form-urlencoded' \
-        --form '=@model.zip'
-  env:
-    MAPPED_AZFN_MODEL_UPLOAD_SERVICE: $(az-fn-model-upload-service)
 
-- task: DotNetCoreCLI@2
-  displayName: 'Evaluate Model'
-  inputs:
-    command: 'test'
-    projects: 'TestModel'
-    testRunTitle: 'Evaluate Model'
-    workingDirectory: 'TestModel'
+
+# steps:
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Restore Training project'
+#   inputs:
+#     command: 'restore'
+#     projects: 'TrainConsole/TrainConsole.csproj'
+#     feedsToUse: 'select'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Build training project'
+#   inputs:
+#     command: 'build'
+#     projects: 'TrainConsole/TrainConsole.csproj'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Train model'
+#   inputs:
+#     workingDirectory: 'TrainConsole'
+#     command: 'run'
+
+# - task: CmdLine@2
+#   displayName: 'Upload Model to Azure Blob Storage'
+#   inputs:
+#     workingDirectory: TrainConsole
+#     script: |
+#       curl --location --request POST $MAPPED_AZFN_MODEL_UPLOAD_SERVICE \
+#         --header 'Transfer-Encoding: chunked' \
+#         --header 'Content-Type: application/x-www-form-urlencoded' \
+#         --form '=@model.zip'
+#   env:
+#     MAPPED_AZFN_MODEL_UPLOAD_SERVICE: $(az-fn-model-upload-service)
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Evaluate Model'
+#   inputs:
+#     command: 'test'
+#     projects: 'TestModel'
+#     testRunTitle: 'Evaluate Model'
+#     workingDirectory: 'TestModel'
