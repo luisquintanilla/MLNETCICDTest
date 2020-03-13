@@ -34,7 +34,7 @@ jobs:
 
   - job: 'Evaluate'
     dependsOn: 'Train'
-    condition: success()
+    condition: succeeded('Train')
     steps: 
     - task: DotNetCoreCLI@2
       displayName: 'Evaluate Model'
