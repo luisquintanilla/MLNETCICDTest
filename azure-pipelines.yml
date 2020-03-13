@@ -6,12 +6,19 @@
 trigger:
 - master
 
+variables:
+  MODEL_LOCATION: '$(Build.ArtifactStagingDirectory)'
+
 pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
   - job: 'Train'
     steps: 
+    - task: CmdLine@2
+      displayName: 'Get Model Location'
+      inputs:
+        script: 'echo $MODEL_LOCATION'
     - task: DotNetCoreCLI@2
       displayName: 'Restore Training project'
       inputs:
@@ -31,6 +38,12 @@ jobs:
         command: 'run'
         arguments: '$(training-data-uri)'
         workingDirectory: 'TrainConsole'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: 'TrainConsole'
+        Contents: 'model.zip'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        OverWrite: true
 
   - job: 'Evaluate'
     dependsOn: 'Train'
@@ -43,6 +56,7 @@ jobs:
         projects: 'TestModel'
         testRunTitle: 'Evaluate Model'
         workingDirectory: 'TestModel'    
+
 
 
 # steps:
