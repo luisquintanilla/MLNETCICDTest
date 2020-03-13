@@ -49,6 +49,10 @@ jobs:
     dependsOn: 'Train'
     condition: succeeded('Train')
     steps: 
+    - task: CmdLine@2
+      displayName: 'List files in artifact directory'
+      inputs:
+        script: 'ls $MODEL_LOCATION'
     - task: DotNetCoreCLI@2
       displayName: 'Evaluate Model'
       inputs:
