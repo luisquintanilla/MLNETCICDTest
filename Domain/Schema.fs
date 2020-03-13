@@ -12,7 +12,7 @@ module Schema =
 
     [<CLIMutable>]
     type ModelOutput = {
-        [<ColumnName("PredictedLabel")>] PredictedSentiment: string
+        [<ColumnName("PredictedLabel")>] PredictedSentiment: bool
         Score: float32 array
     }
 
