@@ -14,28 +14,25 @@ namespace TestModel
     {
         private readonly ITestOutputHelper _output;
         private readonly MLContext _mlContext;
-        private readonly string _modelUri;
-        private readonly HttpClient _client;
+        private readonly string _modelPath;
 
         public UnitTest1(ITestOutputHelper output)
         {
             _output = output;
-            _client = new HttpClient();
             _mlContext = new MLContext();
-            _modelUri = Environment.GetEnvironmentVariable("MODEL", EnvironmentVariableTarget.Machine);
+            _modelPath = "model.zip";
         }
         
         [Fact]
-        public async Task ModelLoads()
+        public void ModelLoads()
         {
-            Stream modelStream = await _client.GetStreamAsync(_modelUri);
-            ITransformer model = _mlContext.Model.Load(modelStream, out DataViewSchema inputSchema);
+            ITransformer model = _mlContext.Model.Load(_modelPath, out DataViewSchema inputSchema);
             _output.WriteLine(model.GetType().ToString());
             Assert.True(typeof(ITransformer).IsInstanceOfType(model));
         }
 
         [Fact]
-        public async Task AccuracyAtOrAbove60Percent()
+        public void AccuracyAtOrAbove60Percent()
         {
 
             var data = new ModelInput[]
@@ -49,15 +46,14 @@ namespace TestModel
 
             IDataView testDataView = _mlContext.Data.LoadFromEnumerable(data);
 
-            Stream modelStream = await _client.GetStreamAsync(_modelUri);
-            ITransformer model = _mlContext.Model.Load(modelStream, out DataViewSchema inputSchema);
+            ITransformer model = _mlContext.Model.Load(_modelPath, out DataViewSchema inputSchema);
 
             IDataView predictionDataView = model.Transform(testDataView);
 
             var modelMetrics = _mlContext.BinaryClassification.Evaluate(predictionDataView);
 
             _output.WriteLine($"Accuracy: {modelMetrics.Accuracy}");
-            Assert.True(modelMetrics.Accuracy > 0.5);
+            Assert.True(modelMetrics.Accuracy >= 0.6);
         }
     }
 }
