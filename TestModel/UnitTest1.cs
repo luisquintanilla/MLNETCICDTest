@@ -10,14 +10,24 @@ namespace TestModel
     public class UnitTest1
     {
         private readonly ITestOutputHelper _output;
+        private readonly MLContext _mlContext;
 
         public UnitTest1(ITestOutputHelper output)
         {
             _output = output;
+            _mlContext = new MLContext();
         }
         
         [Fact]
-        public void AccuracyAbove70Percent()
+        public void ModelLoads()
+        {
+            ITransformer model = _mlContext.Model.Load("model.zip",out DataViewSchema inputSchema);
+            _output.WriteLine(model.GetType().ToString());
+            Assert.True(typeof(ITransformer).IsInstanceOfType(model));
+        }
+
+        [Fact]
+        public void AccuracyAtOrAbove60Percent()
         {
 
             var data = new ModelInput[]
@@ -29,15 +39,13 @@ namespace TestModel
                 new ModelInput("This is awesome", true)
             };
 
-            MLContext mlContext = new MLContext();
+            IDataView testDataView = _mlContext.Data.LoadFromEnumerable(data);
 
-            IDataView testDataView = mlContext.Data.LoadFromEnumerable(data);
-
-            ITransformer model = mlContext.Model.Load("model.zip", out DataViewSchema inputSchema);
+            ITransformer model = _mlContext.Model.Load("model.zip", out DataViewSchema inputSchema);
 
             IDataView predictionDataView = model.Transform(testDataView);
 
-            var modelMetrics = mlContext.BinaryClassification.Evaluate(predictionDataView);
+            var modelMetrics = _mlContext.BinaryClassification.Evaluate(predictionDataView);
 
             _output.WriteLine($"Accuracy: {modelMetrics.Accuracy}");
             Assert.True(modelMetrics.Accuracy > 0.5);
