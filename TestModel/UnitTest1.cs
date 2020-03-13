@@ -5,6 +5,8 @@ using Microsoft.ML;
 using static Domain.Schema;
 using System.Runtime.CompilerServices;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace TestModel
 {
@@ -12,25 +14,28 @@ namespace TestModel
     {
         private readonly ITestOutputHelper _output;
         private readonly MLContext _mlContext;
-        private readonly string _modelPath;
+        private readonly string _modelUri;
+        private readonly HttpClient _client;
 
         public UnitTest1(ITestOutputHelper output)
         {
             _output = output;
+            _client = new HttpClient();
             _mlContext = new MLContext();
-            _modelPath = Path.Join(Environment.GetEnvironmentVariable("MODEL_LOCATION"), "model.zip");
+            _modelUri = Environment.GetEnvironmentVariable("MODEL", EnvironmentVariableTarget.Machine);
         }
         
         [Fact]
-        public void ModelLoads()
+        public async Task ModelLoads()
         {
-            ITransformer model = _mlContext.Model.Load(_modelPath,out DataViewSchema inputSchema);
+            Stream modelStream = await _client.GetStreamAsync(_modelUri);
+            ITransformer model = _mlContext.Model.Load(modelStream, out DataViewSchema inputSchema);
             _output.WriteLine(model.GetType().ToString());
             Assert.True(typeof(ITransformer).IsInstanceOfType(model));
         }
 
         [Fact]
-        public void AccuracyAtOrAbove60Percent()
+        public async Task AccuracyAtOrAbove60Percent()
         {
 
             var data = new ModelInput[]
@@ -44,7 +49,8 @@ namespace TestModel
 
             IDataView testDataView = _mlContext.Data.LoadFromEnumerable(data);
 
-            ITransformer model = _mlContext.Model.Load(_modelPath, out DataViewSchema inputSchema);
+            Stream modelStream = await _client.GetStreamAsync(_modelUri);
+            ITransformer model = _mlContext.Model.Load(modelStream, out DataViewSchema inputSchema);
 
             IDataView predictionDataView = model.Transform(testDataView);
 
