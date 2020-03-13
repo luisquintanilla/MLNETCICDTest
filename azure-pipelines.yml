@@ -54,6 +54,8 @@ jobs:
         projects: 'TestModel'
         testRunTitle: 'Evaluate Model'
         workingDirectory: 'TestModel'    
+      env:
+        MODEL: $(validated-model-uri)
 
   - job: 'UploadProductionModel'
     dependsOn: 'Evaluate'
