@@ -6,19 +6,12 @@
 trigger:
 - master
 
-variables:
-  MODEL_LOCATION: '$(Pipeline.Workspace)'
-
 pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
   - job: 'Train'
     steps: 
-    - task: CmdLine@2
-      displayName: 'Get Model Location'
-      inputs:
-        script: 'echo $MODEL_LOCATION'
     - task: DotNetCoreCLI@2
       displayName: 'Restore Training project'
       inputs:
@@ -38,25 +31,22 @@ jobs:
         command: 'run'
         arguments: '$(training-data-uri)'
         workingDirectory: 'TrainConsole'
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: 'TrainConsole'
-        Contents: 'model.zip'
-        TargetFolder: '$(Pipeline.Workspace)'
-        OverWrite: true
     - task: CmdLine@2
-      displayName: 'List files in artifact directory'
+      displayName: 'Upload Model to Azure Blob Storage Validation Container'
       inputs:
-        script: 'ls $MODEL_LOCATION'        
+        workingDirectory: TrainConsole
+        script: |
+          curl --location --request POST $MAPPED_AZFN_MODEL_UPLOAD_VALIDATION_SERVICE \
+            --header 'Transfer-Encoding: chunked' \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --form '=@model.zip'
+      env:
+        MAPPED_AZFN_MODEL_UPLOAD_VALIDATION_SERVICE: $(az-fn-model-upload-validation-service)        
 
   - job: 'Evaluate'
     dependsOn: 'Train'
     condition: succeeded('Train')
     steps: 
-    - task: CmdLine@2
-      displayName: 'List files in artifact directory'
-      inputs:
-        script: 'ls $MODEL_LOCATION'
     - task: DotNetCoreCLI@2
       displayName: 'Evaluate Model'
       inputs:
@@ -65,7 +55,29 @@ jobs:
         testRunTitle: 'Evaluate Model'
         workingDirectory: 'TestModel'    
 
-
+  - job: 'UploadProductionModel'
+    dependsOn: 'Evaluate'
+    condition: succeeded('Evaluate')
+    steps:
+    - task: CmdLine@2
+      displayName: 'Download validated model'
+      inputs:
+        workingDirectory: TrainConsole
+        script: 'curl VALIDATED_MODEL_URI > model.zip'
+      env:
+        VALIDATED_MODEL_URI: $(validated-model-uri)
+    - task: CmdLine@2
+      displayName: 'Upload Model to Azure Blob Storage Production Container'
+      inputs:
+        workingDirectory: TrainConsole
+        script: |
+          
+          curl --location --request POST $MAPPED_AZFN_MODEL_UPLOAD_SERVICE \
+            --header 'Transfer-Encoding: chunked' \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --form '=@model.zip'
+      env:
+        MAPPED_AZFN_MODEL_UPLOAD_SERVICE: $(az-fn-model-upload-service)
 
 # steps:
 
