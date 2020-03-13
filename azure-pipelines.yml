@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  - job: 'Train'
+  - job: 'TrainEvaluate'
     steps: 
     - task: DotNetCoreCLI@2
       displayName: 'Restore Training project'
@@ -31,6 +31,13 @@ jobs:
         command: 'run'
         arguments: '$(training-data-uri)'
         workingDirectory: 'TrainConsole'
+    - task: DotNetCoreCLI@2
+      displayName: 'Evaluate Model'
+      inputs:
+        command: 'test'
+        projects: 'TestModel'
+        testRunTitle: 'Evaluate Model'
+        workingDirectory: 'TestModel'
     - task: CmdLine@2
       displayName: 'Upload Model to Azure Blob Storage Validation Container'
       inputs:
@@ -43,29 +50,15 @@ jobs:
       env:
         MAPPED_AZFN_MODEL_UPLOAD_VALIDATION_SERVICE: $(az-fn-model-upload-validation-service)        
 
-  - job: 'Evaluate'
-    dependsOn: 'Train'
-    condition: succeeded('Train')
-    steps: 
-    - task: DotNetCoreCLI@2
-      displayName: 'Evaluate Model'
-      inputs:
-        command: 'test'
-        projects: 'TestModel'
-        testRunTitle: 'Evaluate Model'
-        workingDirectory: 'TestModel'    
-      env:
-        MODEL: $(validated-model-uri)
-
   - job: 'UploadProductionModel'
-    dependsOn: 'Evaluate'
-    condition: succeeded('Evaluate')
+    dependsOn: 'TrainEvaluate'
+    condition: succeeded('TrainEvaluate')
     steps:
     - task: CmdLine@2
       displayName: 'Download validated model'
       inputs:
         workingDirectory: TrainConsole
-        script: 'curl VALIDATED_MODEL_URI > model.zip'
+        script: 'curl $VALIDATED_MODEL_URI > model.zip'
       env:
         VALIDATED_MODEL_URI: $(validated-model-uri)
     - task: CmdLine@2
