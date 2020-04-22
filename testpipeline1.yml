@@ -24,4 +24,5 @@ steps:
       # Write your commands here
       
       dotnet tool install -g mlnet
+      export PATH="$PATH:~/.dotnet/tools"
       mlnet
