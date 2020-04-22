@@ -25,11 +25,4 @@ steps:
       
       dotnet tool install -g mlnet
       export PATH="$PATH:~/.dotnet/tools"
-      
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your commands here
-
-      mlnet      
+      mlnet
