@@ -46,10 +46,6 @@ jobs:
         script: |
           curl --location --request POST $MAPPED_AZFN_MODEL_UPLOAD_VALIDATION_SERVICE \
           --form '=@model.zip'
-          # curl --location --request POST $MAPPED_AZFN_MODEL_UPLOAD_VALIDATION_SERVICE \
-          #   --header 'Transfer-Encoding: chunked' \
-          #   --header 'Content-Type: application/x-www-form-urlencoded' \
-          #   --form '=@model.zip'
       env:
         MAPPED_AZFN_MODEL_UPLOAD_VALIDATION_SERVICE: $(az-fn-model-upload-validation-service)        
 
@@ -71,8 +67,5 @@ jobs:
         script: |
           curl --location --request POST $MAPPED_AZFN_MODEL_UPLOAD_SERVICE \
           --form '=@model.zip'
-            # --header 'Transfer-Encoding: chunked' \
-            # --header 'Content-Type: application/x-www-form-urlencoded' \
-            # --form '=@model.zip'
       env:
         MAPPED_AZFN_MODEL_UPLOAD_SERVICE: $(az-fn-model-upload-service)
