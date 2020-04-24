@@ -67,7 +67,7 @@ You should receive the following response if the model was uploaded successfully
 Uploaded Successfully
 ```
 
-### AzFn
+### AzFnSentimentAnalysisService
 
 1. Navigate to the `AzFnSentimentAnalysisService` project directory. 
 1. Create a `local.settings.json` file with the following content. Replace the `PRODUCTION-MODEL-URI` with the URI of the blob containing the production model. (Validation is also valid. This URI can point to any serialized version of the model)
@@ -83,7 +83,13 @@ Uploaded Successfully
 }
 ```
 
-1. Use `curl` in the terminal to upload the model.
+1. Use the Azure Functions Core Tools in the terminal to start the application:
+
+```bash
+func host start
+```
+
+1. In another terminal, use `curl` to classify the sentiment of a comment.
 
 ```bash
 curl --location --request POST 'http://localhost:7071/api/AnalyzeSentiment' \
