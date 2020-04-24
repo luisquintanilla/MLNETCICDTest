@@ -16,16 +16,6 @@ namespace TrainConsole
             //Initialize MLContext
             MLContext mlContext = new MLContext();
 
-            // Create in-memory data
-            //var data = new ModelInput[]
-            //{
-            //    new ModelInput("This is nice", true),
-            //    new ModelInput("This is terrible", false),
-            //    new ModelInput("This is cool", true),
-            //    new ModelInput("This is bad", false),
-            //    new ModelInput("This is awesome", true)
-            //};
-
             var data = await GetDataAsync(args[0]);
 
             // Create DataView

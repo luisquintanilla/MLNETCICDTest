@@ -28,11 +28,12 @@ namespace TestModel
         {
             ITransformer model = _mlContext.Model.Load(_modelPath, out DataViewSchema inputSchema);
             _output.WriteLine(model.GetType().ToString());
+            _output.WriteLine($"Val Model Uri {Environment.GetEnvironmentVariable("VALIDATION_MODEL_URI")}");
             Assert.True(typeof(ITransformer).IsInstanceOfType(model));
         }
 
         [Fact]
-        public void AccuracyAtOrAbove60Percent()
+        public void AccuracyAtOrAbove90Percent()
         {
 
             var data = new ModelInput[]
@@ -53,7 +54,12 @@ namespace TestModel
             var modelMetrics = _mlContext.BinaryClassification.Evaluate(predictionDataView);
 
             _output.WriteLine($"Accuracy: {modelMetrics.Accuracy}");
-            Assert.True(modelMetrics.Accuracy >= 0.6);
+            Assert.True(modelMetrics.Accuracy >= 0.9);
+        }
+
+        private void GetModel()
+        {
+
         }
     }
 }
