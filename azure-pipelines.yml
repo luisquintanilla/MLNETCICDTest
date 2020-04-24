@@ -67,7 +67,6 @@ jobs:
       inputs:
         workingDirectory: TrainConsole
         script: |
-          
           curl --location --request POST $MAPPED_AZFN_MODEL_UPLOAD_SERVICE \
             --header 'Transfer-Encoding: chunked' \
             --header 'Content-Type: application/x-www-form-urlencoded' \
