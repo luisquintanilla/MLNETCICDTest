@@ -70,8 +70,9 @@ jobs:
         workingDirectory: TrainConsole
         script: |
           curl --location --request POST $MAPPED_AZFN_MODEL_UPLOAD_SERVICE \
-            --header 'Transfer-Encoding: chunked' \
-            --header 'Content-Type: application/x-www-form-urlencoded' \
-            --form '=@model.zip'
+          --form '=@model.zip'
+            # --header 'Transfer-Encoding: chunked' \
+            # --header 'Content-Type: application/x-www-form-urlencoded' \
+            # --form '=@model.zip'
       env:
         MAPPED_AZFN_MODEL_UPLOAD_SERVICE: $(az-fn-model-upload-service)
