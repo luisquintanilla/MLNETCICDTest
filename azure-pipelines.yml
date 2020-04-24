@@ -40,7 +40,7 @@ jobs:
         workingDirectory: 'TestModel'
     - task: CmdLine@2
       displayName: 'Upload Model to Azure Blob Storage Validation Container'
-      condition: succeeded('EvaluateModel')
+      condition: succeeded()
       inputs:
         workingDirectory: TrainConsole
         script: |
