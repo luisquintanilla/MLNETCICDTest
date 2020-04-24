@@ -16,6 +16,7 @@ Sample ML.NET application that trains, evaluates and deploys a model using Azure
 - TestModel: C# XUnit Test Project. Used to evaluate the model.
 - AzFnUploadService: C# Azure Functions HTTP Triggered serverless application that uploads the trained model to a validation / staging Azure Storage Blob container and the evaluated model to a production Azure Storage Blob container. 
 - AzFnSentimentAnalysisService: C# Azure Functions HTTP Triggered serverless application that uses the production model to make predictions.
+- azure-pipelines.yml: Contains Azure DevOps Build/Test/Deploy job definitions.
 
 ## Data
 
