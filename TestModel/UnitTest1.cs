@@ -32,7 +32,7 @@ namespace TestModel
         }
 
         [Fact]
-        public void AccuracyAtOrAbove30Percent()
+        public void AccuracyAtOrAbove90Percent()
         {
 
             var data = new ModelInput[]
@@ -53,7 +53,7 @@ namespace TestModel
             var modelMetrics = _mlContext.BinaryClassification.Evaluate(predictionDataView);
 
             _output.WriteLine($"Accuracy: {modelMetrics.Accuracy}");
-            Assert.True(modelMetrics.Accuracy >= 0.3);
+            Assert.True(modelMetrics.Accuracy >= 0.9);
         }
 
         private void GetModel()
