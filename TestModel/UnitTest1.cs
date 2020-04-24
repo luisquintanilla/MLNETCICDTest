@@ -28,7 +28,6 @@ namespace TestModel
         {
             ITransformer model = _mlContext.Model.Load(_modelPath, out DataViewSchema inputSchema);
             _output.WriteLine(model.GetType().ToString());
-            _output.WriteLine($"Val Model Uri {Environment.GetEnvironmentVariable("VALIDATION_MODEL_URI")}");
             Assert.True(typeof(ITransformer).IsInstanceOfType(model));
         }
 
