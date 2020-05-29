@@ -4,8 +4,9 @@ Sample ML.NET application that trains, evaluates and deploys a model using Azure
 
 ## Prerequisites
 
-- .NET SDK 3.1
-- Azure Functions Core Tools
+- [.NET SDK 3.1](https://dotnet.microsoft.com/download/dotnet-core)
+- [Azure Blob Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create?tabs=azure-portal)
+- [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash)
 
 ## The Application
 
@@ -46,7 +47,7 @@ dotnet test
 
 ### AzFnUploadService
 
-1. Make sure you have in Azure Blob Storage, containers called *validation* and *production*.
+1. Make sure you have in Azure Blob Storage, [containers](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container) called *validation* and *production*.
 1. Navigate to the `AzFnUploadService` project directory.
 1. Create a `local.settings.json` file with the following content. Replace the `AZURE-BLOB-STORAGE-CONNECTION-STRING` with the URI of the blob account where you'll be saving your models to.
 
