@@ -5,7 +5,7 @@ Sample ML.NET application that trains, evaluates and deploys a model using Azure
 ## Prerequisites
 
 - [.NET SDK 3.1](https://dotnet.microsoft.com/download/dotnet-core)
-- [Azure Blob Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create?tabs=azure-portal)
+- [Azure Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create?tabs=azure-portal)
 - [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash)
 
 ## The Application
