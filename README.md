@@ -49,7 +49,7 @@ dotnet test
 
 1. Make sure you have in Azure Blob Storage, [containers](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container) called *validation* and *production*.
 1. Navigate to the `AzFnUploadService` project directory.
-1. Create a `local.settings.json` file with the following content. Replace the `AZURE-BLOB-STORAGE-CONNECTION-STRING` with the URI of the blob account where you'll be saving your models to.
+1. Create a `local.settings.json` file with the following content. Replace the `AZURE-BLOB-STORAGE-CONNECTION-STRING` with the [connection string](https://docs.microsoft.com/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) of the blob account where you'll be saving your models to.
 
 ```json
 {
