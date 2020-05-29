@@ -48,6 +48,18 @@ dotnet test
 
 1. Make sure you have in Azure Blob Storage, containers called *validation* and *production*.
 1. Navigate to the `AzFnUploadService` project directory.
+1. Create a `local.settings.json` file with the following content. Replace the `AZURE-BLOB-STORAGE-CONNECTION-STRING` with the URI of the blob account where you'll be saving your models to.
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "AzModelStorageConnectionString": "<AZURE-BLOB-STORAGE-CONNECTION-STRING>"
+  }
+}
+```
 1. Use the Azure Functions Core Tools in the terminal to start the application:
 
 ```bash
