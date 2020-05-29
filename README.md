@@ -9,7 +9,7 @@ Sample ML.NET application that trains, evaluates and deploys a model using Azure
 
 ## The Application
 
-![](MLOpsMLNET.jpg)
+![](mlnet-ci-cd-project.PNG)
 
 - Domain: F# .NET Core Class Library containing schema of input and output data used by the model.
 - TrainConsole: C# .NET Core Console Application. Trains a binary classification model to analyze sentiment.
